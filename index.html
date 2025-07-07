@@ -6,6 +6,7 @@
     <title>TaskFlow Pro | Productivity App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script>
         tailwind.config = {
             theme: {
@@ -27,60 +28,6 @@
             }
         }
     </script>
-    <style>
-        /* Custom styles that can't be done with Tailwind */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        .task-item {
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-        
-        .task-item.dragging {
-            opacity: 0.5;
-            transform: scale(0.95);
-        }
-        
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-        
-        @media (max-width: 640px) {
-            .glass-effect {
-                backdrop-filter: blur(4px);
-                -webkit-backdrop-filter: blur(4px);
-            }
-        }
-        
-        /* Smooth transitions for modals */
-        .modal-enter {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        
-        .modal-enter-active {
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 200ms, transform 200ms;
-        }
-        
-        .modal-exit {
-            opacity: 1;
-        }
-        
-        .modal-exit-active {
-            opacity: 0;
-            transform: scale(0.95);
-            transition: opacity 200ms, transform 200ms;
-        }
-    </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-50 to-purple-50 min-h-screen text-gray-800">
     <!-- App Container -->
@@ -95,13 +42,16 @@
             </div>
             
             <div class="flex items-center space-x-3">
-                <!-- Auth Buttons -->
-                <button id="loginBtn" class="px-4 py-2 rounded-lg border border-indigo-500 text-indigo-500 hover:bg-indigo-50 transition-colors">
+                <!-- Navigation Buttons -->
+                <a href="index.html" class="px-4 py-2 rounded-lg border border-indigo-500 text-indigo-500 hover:bg-indigo-50 transition-colors">
+                    <i class="fas fa-list-ul mr-2"></i>Tasks
+                </a>
+                <a href="tracker.html" class="px-4 py-2 rounded-lg border border-indigo-500 text-indigo-500 hover:bg-indigo-50 transition-colors">
+                    <i class="fas fa-clock mr-2"></i>Time Tracker
+                </a>
+                <a href="login.html" class="px-4 py-2 rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition-colors shadow-sm">
                     <i class="fas fa-sign-in-alt mr-2"></i>Login
-                </button>
-                <button id="signupBtn" class="px-4 py-2 rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition-colors shadow-sm">
-                    <i class="fas fa-user-plus mr-2"></i>Sign Up
-                </button>
+                </a>
                 
                 <!-- User Profile (hidden by default) -->
                 <div id="userProfile" class="hidden items-center">
@@ -115,9 +65,9 @@
         </header>
         
         <!-- Main Content -->
-        <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Left Column - To-Do List -->
-            <div class="lg:col-span-2 space-y-6">
+        <main class="grid grid-cols-1 lg:grid-cols-1 gap-6">
+            <!-- To-Do List -->
+            <div class="space-y-6">
                 <!-- Task Input -->
                 <div class="glass-effect rounded-xl p-5 shadow-sm border border-white">
                     <div class="flex items-center">
@@ -168,182 +118,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Right Column - Time Block Tracker -->
-            <div class="space-y-6">
-                <!-- Time Block Form -->
-                <div class="glass-effect rounded-xl p-5 shadow-sm border border-white">
-                    <h2 class="text-lg font-semibold mb-4 flex items-center">
-                        <i class="fas fa-clock mr-2 text-indigo-500"></i> Time Tracker
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                            <input type="text" id="timeBlockDesc" placeholder="What are you working on?" 
-                                   class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-transparent">
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
-                                <input type="time" id="startTime" 
-                                       class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
-                                <input type="time" id="endTime" 
-                                       class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-transparent">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
-                            <textarea id="timeBlockNotes" rows="2" placeholder="Any additional notes..."
-                                      class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-transparent"></textarea>
-                        </div>
-                        
-                        <div class="flex justify-between items-center pt-2">
-                            <div>
-                                <span class="text-sm font-medium">Duration:</span>
-                                <span id="durationDisplay" class="ml-2 text-indigo-500 font-medium">0h 0m</span>
-                            </div>
-                            <button id="addTimeBlockBtn" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors shadow-sm">
-                                <i class="fas fa-plus mr-1"></i> Add Block
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Time Blocks List -->
-                <div class="glass-effect rounded-xl p-5 shadow-sm border border-white">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-semibold flex items-center">
-                            <i class="fas fa-history mr-2 text-indigo-500"></i> Today's Blocks
-                        </h2>
-                        <button id="exportBtn" class="text-sm text-indigo-500 hover:text-indigo-700 flex items-center">
-                            <i class="fas fa-file-export mr-1"></i> Export
-                        </button>
-                    </div>
-                    
-                    <div id="timeBlocksList" class="space-y-3">
-                        <div class="text-center py-8 text-gray-400">
-                            <i class="fas fa-hourglass-half text-3xl mb-2"></i>
-                            <p>No time blocks recorded yet</p>
-                        </div>
-                        
-                        <!-- Time blocks will be added here dynamically -->
-                    </div>
-                    
-                    <div class="mt-4 pt-3 border-t border-gray-100 text-sm text-gray-500">
-                        <div class="flex justify-between">
-                            <span>Total tracked today:</span>
-                            <span id="totalTrackedTime" class="font-medium">0h 0m</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </main>
-    </div>
-    
-    <!-- Modals -->
-    
-    <!-- Delete Confirmation Modal -->
-    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl transform transition-all">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold">Confirm Action</h3>
-                <button id="closeModalBtn" class="text-gray-400 hover:text-gray-500">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <p id="modalMessage" class="mb-6">Are you sure you want to delete this task?</p>
-            <div class="flex justify-end space-x-3">
-                <button id="cancelModalBtn" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
-                    Cancel
-                </button>
-                <button id="confirmModalBtn" class="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600">
-                    Confirm
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Auth Modal -->
-    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl transform transition-all">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold" id="authModalTitle">Login</h3>
-                <button id="closeAuthModalBtn" class="text-gray-400 hover:text-gray-500">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div id="authForm">
-                <div class="space-y-4">
-                    <div id="nameField" class="hidden">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                        <input type="text" id="authName" placeholder="Your name" 
-                               class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input type="email" id="authEmail" placeholder="your@email.com" 
-                               class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                        <input type="password" id="authPassword" placeholder="••••••••" 
-                               class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-transparent">
-                        <p class="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
-                    </div>
-                    
-                    <div id="passwordConfirmField" class="hidden">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                        <input type="password" id="authPasswordConfirm" placeholder="••••••••" 
-                               class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-transparent">
-                    </div>
-                    
-                    <button id="submitAuthBtn" class="w-full py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors shadow-sm mt-2">
-                        Continue
-                    </button>
-                    
-                    <div class="relative my-4">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-200"></div>
-                        </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
-                        </div>
-                    </div>
-                    
-                    <button id="googleAuthBtn" class="w-full py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center">
-                        <img src="https://www.google.com/favicon.ico" alt="Google" class="w-4 h-4 mr-2">
-                        <span>Google</span>
-                    </button>
-                </div>
-                
-                <div class="mt-4 text-center text-sm">
-                    <span id="authToggleText">Don't have an account? </span>
-                    <button id="authToggleBtn" class="text-indigo-500 hover:text-indigo-700 font-medium">Sign up</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-3 rounded-lg shadow-lg transform translate-y-10 opacity-0 transition-all duration-300 flex items-start max-w-xs">
-        <div class="mr-3">
-            <i class="fas fa-check-circle text-green-400"></i>
-        </div>
-        <div>
-            <p id="toastMessage" class="text-sm"></p>
-        </div>
-        <button id="closeToastBtn" class="ml-4 text-gray-300 hover:text-white">
-            <i class="fas fa-times"></i>
-        </button>
     </div>
     
     <script src="js/main.js"></script>
